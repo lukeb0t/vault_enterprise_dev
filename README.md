@@ -2,8 +2,6 @@
 
 Terraform modules for deploying **HashiCorp Vault Enterprise** on AWS and Azure. Designed to provision a single-node Vault Enterprise cluster with auto-unseal, TLS, and cloud-native secret storage for bootstrap credentials.
 
-> **These modules are used together with [`tfe_vault_jit_secrets`](https://github.com/lukeb0t/tfe_vault_jit_secrets)**, which configures TFE/HCP Terraform workloads to consume dynamic credentials from the deployed Vault instance.
-
 ---
 
 ## Modules
@@ -104,6 +102,6 @@ terraform init && terraform apply
 
 ---
 
-## Using with tfe_vault_jit_secrets
+## Using with TFE dynamic secrets
 
-Once Vault is deployed, use the modules in [`tfe_vault_jit_secrets`](https://github.com/lukeb0t/tfe_vault_jit_secrets) to configure TFE/HCP Terraform workloads to consume dynamic credentials from this Vault instance — no long-lived credentials required.
+Once Vault is deployed, you can configure TFE/HCP Terraform workloads to consume dynamic credentials from this Vault instance — no long-lived credentials required. Use the Vault JWT auth method and AWS secrets engine to issue short-lived tokens and STS credentials scoped per workspace run.
