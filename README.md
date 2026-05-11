@@ -84,17 +84,32 @@ Both modules:
 
 ---
 
+## Repository layout
+
+```
+vault_enterprise_dev/
+├── vault_deploy_aws/       # Vault Enterprise on AWS   (EC2 + VPC + KMS + SSM)
+├── vault_deploy_azure/     # Vault Enterprise on Azure (VM + VNet + Azure Key Vault)
+└── examples/
+    ├── aws/
+    │   └── infra/          # Ready-to-use deployment using vault_deploy_aws
+    └── azure/
+        └── infra/          # Ready-to-use deployment using vault_deploy_azure
+```
+
+---
+
 ## Quick start
 
 ```bash
 # AWS
-cd vault_deploy_aws
+cd examples/aws/infra
 cp terraform.tfvars.example terraform.tfvars
 # Edit terraform.tfvars
 terraform init && terraform apply
 
 # Azure
-cd vault_deploy_azure
+cd examples/azure/infra
 cp terraform.tfvars.example terraform.tfvars
 # Edit terraform.tfvars
 terraform init && terraform apply
