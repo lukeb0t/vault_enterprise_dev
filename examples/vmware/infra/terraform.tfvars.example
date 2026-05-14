@@ -1,0 +1,20 @@
+vsphere_server               = "10.140.21.5"
+vsphere_user                 = "root"
+vsphere_allow_unverified_ssl = true
+
+cluster_name  = "vault-poc"
+vault_version = "2.0.0-ent"
+# vault_license = "02K..."
+
+vsphere_datacenter = "ha-datacenter"  # typical default datacenter name for standalone ESXi
+vsphere_esxi_host  = "10.140.21.5"   # use vsphere_compute_cluster instead for vCenter clusters
+vsphere_datastore  = "datastore1"     # typical default datastore name
+vsphere_network    = "VM Network"
+vm_template        = "rhel8-template"
+# vm_folder = "vault"                 # optional; omit to place in root
+
+vault_ip_address = "10.140.21.100"
+gateway          = "10.140.21.1"
+netmask_bits     = 24
+dns_servers      = ["10.140.21.1", "8.8.8.8"]
+domain           = "local"

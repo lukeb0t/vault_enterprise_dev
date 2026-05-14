@@ -1,0 +1,45 @@
+# vault_deploy_vmware — example variable values
+# Copy to terraform.tfvars and fill in your values before running terraform apply.
+
+cluster_name = "vault-poc"
+
+vault_version = "2.0.0-ent"
+# vault_license = "02K..."  # paste your Vault Enterprise license string here
+
+# ─── vSphere Infrastructure ───────────────────────────────────────────────────
+
+vsphere_datacenter      = "dc-01"
+vsphere_compute_cluster = "cluster-01"   # OR use vsphere_esxi_host for a standalone host
+vsphere_datastore       = "vsanDatastore"
+vsphere_network         = "VM Network"
+vm_template             = "rhel8-template"
+vm_folder               = "vault"         # optional; remove to place in datacenter root
+
+# ─── Static IP ────────────────────────────────────────────────────────────────
+
+vault_ip_address   = "10.140.21.100"
+gateway            = "10.140.21.1"
+netmask_bits       = 24
+dns_servers        = ["10.140.21.1", "8.8.8.8"]
+dns_search_domains = ["example.local"]
+domain             = "example.local"
+
+# ─── VM Sizing ────────────────────────────────────────────────────────────────
+
+num_cpus     = 2
+memory_mb    = 4096
+disk_size_gb = 50
+
+# ─── TLS ──────────────────────────────────────────────────────────────────────
+
+# Leave both empty to let cloud-init generate a self-signed certificate.
+# vault_tls_cert_pem = <<-PEM
+# -----BEGIN CERTIFICATE-----
+# ...
+# -----END CERTIFICATE-----
+# PEM
+# vault_tls_key_pem = <<-PEM
+# -----BEGIN PRIVATE KEY-----
+# ...
+# -----END PRIVATE KEY-----
+# PEM
