@@ -73,7 +73,7 @@ vault status
 | Name | Description | Type | Default | Required |
 |---|---|---|---|---|
 | `cluster_name` | Unique name prefix for all Azure resources | `string` | — | yes |
-| `vault_version` | Vault Enterprise Docker image tag (must be 2.0.0+) | `string` | `"2.0.0-ent"` | no |
+| `vault_version` | Vault Enterprise Docker image tag (must be 2.0.0+) | `string` | `"2.0.3-ent"` | no |
 | `vault_license` | Vault Enterprise license string | `string` | — | yes |
 | `location` | Azure region (e.g. `"East US"`, `"West Europe"`) | `string` | — | yes |
 | `resource_group_name` | Existing Resource Group to deploy into | `string` | — | yes |

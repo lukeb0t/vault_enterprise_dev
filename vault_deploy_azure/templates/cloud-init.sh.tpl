@@ -191,7 +191,11 @@ chmod 640 /opt/vault/config/vault.hclic
 # --entrypoint /bin/vault : bypasses docker-entrypoint.sh which calls setcap.
 #   setcap fails on Azure VMs without CAP_SETFCAP — the same issue as on AWS EC2.
 # --user 100:1000         : run as the vault user to match host directory ownership.
-# disable_mlock = true    : removes the need for CAP_IPC_LOCK in the container.
+# --cap-add IPC_LOCK      : required since the 2.0.1+ image bakes cap_ipc_lock=ep
+#   onto the vault binary at build time and runs as an unprivileged user. The
+#   effective file capability forces the kernel to require IPC_LOCK in the
+#   container's bounding set at exec time, so the container will not start without
+#   it — even though disable_mlock = true.
 # VAULT_LICENSE env var   : passes the license directly; avoids a file bind-mount
 #   for the license (kept separate from config for clarity).
 log "Starting Vault Enterprise container (version: $VAULT_VERSION)..."
@@ -200,6 +204,7 @@ docker run -d \
   --restart unless-stopped \
   --user 100:1000 \
   --entrypoint /bin/vault \
+  --cap-add IPC_LOCK \
   -p 8200:8200 \
   -p 8201:8201 \
   -e VAULT_LICENSE="$VAULT_LICENSE" \

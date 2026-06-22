@@ -8,10 +8,12 @@ variable "cluster_name" {
 # ─── Vault ───────────────────────────────────────────────────────────────────
 
 variable "vault_version" {
-  description = "Vault Enterprise Docker image tag (e.g. '2.0.0-ent'). Must be 2.0.0+ for modern enterprise licenses."
+  description = "Vault Enterprise Docker image tag (e.g. '2.0.3-ent'). Must be 2.0.0+ for modern enterprise licenses."
   type        = string
   # Vault 2.0.0+ required for licenses using the 'platform-standard' module.
-  default = "2.0.0-ent"
+  # 2.0.1+ images bake cap_ipc_lock onto the binary and run as an unprivileged
+  # user, so the container is started with --cap-add IPC_LOCK (see cloud-init).
+  default = "2.0.3-ent"
 }
 
 variable "vault_license" {

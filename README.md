@@ -32,7 +32,7 @@ Self-contained Azure deployment. Creates its own VNet and networking by default.
 | Input | Description | Default |
 |---|---|---|
 | `cluster_name` | Name prefix for all resources | required |
-| `vault_version` | Docker image tag | `"2.0.0-ent"` |
+| `vault_version` | Docker image tag | `"2.0.3-ent"` |
 | `vault_license` | Enterprise license (sensitive) | required |
 | `location` | Azure region | required |
 | `resource_group_name` | Existing Resource Group | required |

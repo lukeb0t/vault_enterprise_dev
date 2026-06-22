@@ -2,7 +2,7 @@
 # Never commit terraform.tfvars — it is in .gitignore.
 
 cluster_name        = "vault-poc"
-vault_version       = "2.0.0-ent"
+vault_version       = "2.0.3-ent"
 location            = "East US"
 resource_group_name = "my-resource-group"
 barebones_dev_mode  = false

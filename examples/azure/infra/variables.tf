@@ -7,7 +7,7 @@ variable "cluster_name" {
 variable "vault_version" {
   description = "Vault Enterprise Docker image tag."
   type        = string
-  default     = "2.0.0-ent"
+  default     = "2.0.3-ent"
 }
 
 variable "vault_license" {
