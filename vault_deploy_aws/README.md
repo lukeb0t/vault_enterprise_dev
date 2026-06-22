@@ -20,7 +20,7 @@ module "vault" {
   source = "./vault_deploy_aws"
 
   cluster_name  = "my-vault"
-  vault_version = "2.0.0-ent"
+  vault_version = "2.0.3-ent"
   vault_license = var.vault_license   # sensitive — do not hardcode
 
    # Optional: omit these to let the module create its own VPC + public subnet.
@@ -82,8 +82,8 @@ The principal running Terraform needs:
 | `subnet_id` | ID of an existing **public** subnet. Required only when `vpc_id` is set. | `string` | `null` | |
 | `vpc_cidr` | CIDR block for a module-managed VPC. Used only when `vpc_id = null`. | `string` | `"10.100.0.0/16"` | |
 | `subnet_cidr` | CIDR block for a module-managed public subnet. Used only when `vpc_id = null`. | `string` | `"10.100.1.0/24"` | |
-| `vault_version` | Docker image tag for `hashicorp/vault-enterprise` (e.g. `2.0.0-ent`). | `string` | `"2.0.0-ent"` | |
-| `instance_type` | EC2 instance type. | `string` | `"m5.medium"` | |
+| `vault_version` | Docker image tag for `hashicorp/vault-enterprise` (e.g. `2.0.3-ent`). | `string` | `"2.0.3-ent"` | |
+| `instance_type` | EC2 instance type. | `string` | `"t3.medium"` | |
 | `barebones_dev_mode` | Disable KMS auto-unseal, IAM, and SSM bootstrap storage; use local Shamir bootstrap files instead. | `bool` | `false` | |
 | `key_pair_name` | Name of an existing EC2 key pair for SSH access. Required when `barebones_dev_mode = true`. | `string` | `null` | |
 | `root_volume_size_gb` | Root EBS volume size in GiB. Raft storage shares this volume. | `number` | `50` | |
@@ -163,7 +163,7 @@ module "vault" {
 
 When using custom TLS material, ensure the certificate SAN/CN matches how clients connect to Vault (for example, public IP or DNS name).
 
-> **Why `--entrypoint /bin/vault`?** Vault 2.0's `docker-entrypoint.sh` calls `setcap cap_ipc_lock` on the vault binary. This requires `CAP_SETFCAP` in the effective capability set, which EC2 instances do not grant even with `--cap-add SETFCAP`. Since `disable_mlock = true` is set in `vault.hcl`, memory locking is not needed anyway. Bypassing the entrypoint avoids the crash entirely.
+> **Why `--entrypoint /bin/vault` and `--cap-add IPC_LOCK`?** Vault's `docker-entrypoint.sh` calls `setcap cap_ipc_lock` on the vault binary at runtime, which requires `CAP_SETFCAP` in the effective capability set — something EC2 instances do not grant even with `--cap-add SETFCAP`. Bypassing the entrypoint with `--entrypoint /bin/vault` avoids that crash. However, since the **2.0.1** image the `cap_ipc_lock=ep` file capability is baked onto the binary at build time (the container now runs as an unprivileged user). The effective bit forces the kernel to require `IPC_LOCK` in the container's bounding set at exec time, so the container will not start without `--cap-add IPC_LOCK` — even though `disable_mlock = true` is set in `vault.hcl`. See the [Vault important changes](https://developer.hashicorp.com/vault/docs/updates/important-changes) note "Docker image requires IPC_LOCK capability".
 
 ## Troubleshooting
 

@@ -1,6 +1,6 @@
 # Deploy Vault Enterprise — creates its own VPC (10.100.0.0/16)
 module "vault" {
-  source = "../../vault_deploy_aws"
+  source = "../../../vault_deploy_aws"
 
   cluster_name       = var.cluster_name
   vault_license      = var.vault_license

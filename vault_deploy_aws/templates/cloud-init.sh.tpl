@@ -164,7 +164,12 @@ log "Vault configuration written."
 #   --user 100:1000          : run as vault user (matches volume ownership set above)
 #   --entrypoint /bin/vault  : bypass the image's docker-entrypoint.sh which fails
 #                              to set CAP_SETFCAP on EC2; we handle permissions above
-#   No --cap-add IPC_LOCK    : disable_mlock = true in vault.hcl makes this unnecessary
+#   --cap-add IPC_LOCK       : required since the 2.0.1+ image bakes cap_ipc_lock=ep
+#                              onto the vault binary at build time and runs as an
+#                              unprivileged user. The effective file capability forces
+#                              the kernel to require IPC_LOCK in the container's
+#                              bounding set at exec time, so the container will not
+#                              start without it — even though disable_mlock = true.
 log "Starting Vault Enterprise container (version: $VAULT_VERSION)..."
 
 docker run -d \
@@ -172,6 +177,7 @@ docker run -d \
   --restart unless-stopped \
   --user 100:1000 \
   --entrypoint /bin/vault \
+  --cap-add IPC_LOCK \
   -p 8200:8200 \
   -p 8201:8201 \
   -e VAULT_LICENSE="$VAULT_LICENSE" \

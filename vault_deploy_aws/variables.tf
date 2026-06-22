@@ -8,11 +8,13 @@ variable "cluster_name" {
 # ─── Vault ─────────────────────────────────────────────────────────────────
 
 variable "vault_version" {
-  description = "Vault Enterprise Docker image tag to pull from Docker Hub (e.g. '2.0.0-ent')."
+  description = "Vault Enterprise Docker image tag to pull from Docker Hub (e.g. '2.0.3-ent')."
   type        = string
   # Vault 2.0.0+ is required for licenses using the 'platform-standard' module.
   # Versions 1.18.x and earlier will reject modern enterprise licenses.
-  default = "2.0.0-ent"
+  # 2.0.1+ images bake cap_ipc_lock onto the binary and run as an unprivileged
+  # user, so the container is started with --cap-add IPC_LOCK (see cloud-init).
+  default = "2.0.3-ent"
 }
 
 variable "vault_license" {
@@ -70,7 +72,7 @@ variable "barebones_dev_mode" {
 variable "instance_type" {
   description = "EC2 instance type for the Vault server."
   type        = string
-  default     = "m5.medium" # 1 vCPU / 4 GB — lower-cost default for single-node POC
+  default     = "t3.medium" # 2 vCPU / 4 GB — lower-cost default for single-node POC
 }
 
 variable "key_pair_name" {

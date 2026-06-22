@@ -13,7 +13,7 @@ Self-contained AWS deployment. Creates its own VPC and networking by default.
 | Input | Description | Default |
 |---|---|---|
 | `cluster_name` | Name prefix for all resources | required |
-| `vault_version` | Docker image tag | `"2.0.0-ent"` |
+| `vault_version` | Docker image tag | `"2.0.3-ent"` |
 | `vault_license` | Enterprise license (sensitive) | required |
 | `vpc_id` | Existing VPC (`null` = module creates one) | `null` |
 | `subnet_id` | Existing subnet (required when `vpc_id` set) | `null` |
@@ -53,7 +53,7 @@ Key outputs: `vault_addr`, `vault_public_ip`, `key_vault_name`, `key_vault_uri`
 | | `vault_deploy_aws` | `vault_deploy_azure` |
 |---|---|---|
 | **Compute** | EC2 (Amazon Linux 2023) | Linux VM (Ubuntu 22.04 LTS) |
-| **Instance size** | `m5.medium` | `Standard_B2s` |
+| **Instance size** | `t3.medium` | `Standard_B2s` |
 | **Auto-unseal** | AWS KMS Customer Managed Key | Azure Key Vault RSA key |
 | **Secret storage** | SSM Parameter Store (SecureString) | Azure Key Vault Secret |
 | **Identity** | IAM Instance Profile | User-Assigned Managed Identity |
